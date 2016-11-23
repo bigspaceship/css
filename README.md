@@ -1,4 +1,4 @@
-# Airbnb CSS / Sass Styleguide
+# Big Spaceship CSS / Sass Styleguide
 
 *A mostly reasonable approach to CSS and Sass*
 
