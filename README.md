@@ -252,8 +252,21 @@ Use `0` instead of `none` to specify that a style has no border.
      font-weight: bold;
      @include transition(background 0.5s ease);
 
-     .icon {
+     > .icon {
        margin-right: 10px;
+     }
+   }
+   ```
+
+4. Variants
+   Nested and prefixed using a dash.
+   ```scss
+   .btn {
+     &.-wide {
+       /* ... */
+     }
+     &.-short {
+       /* ... */
      }
    }
    ```
@@ -276,8 +289,8 @@ Mixins should be used to DRY up your code, add clarity, or abstract complexity--
 
 ```scss
 .page-container {
-  .content {
-    .profile {
+  > .content {
+    > .profile {
       // STOP!
     }
   }
@@ -295,6 +308,38 @@ Again: **never nest ID selectors!**
 If you must use an ID selector in the first place (and you should really try not to), they should never be nested. If you find yourself doing this, you need to revisit your markup, or figure out why such strong specificity is needed. If you are writing well formed HTML and CSS, you should **never** need to do this.
 
 **[⬆ back to top](#table-of-contents)**
+
+### Font Declarations & Fallback Fonts
+
+- Use @font-face declarations to define a custom font-family and its properties such as name, location, and style characteristics
+- Use font-display property and preload to control font loading behavior and reduce FOIT and FOUT. Font-display is currently not supported on IE, Edge, Opera and Android and preload is not supported on IE, Firefox, Opera and only partially on Edge.
+
+```html
+<link rel="preload" href="/fonts/custom.woff2" as="font" type="font/woff2" crossorigin>
+```
+
+- Aiming to support modern browsers, we use woff and woff2 formats to offer a practical level of browser support. Woff2 is supported in all browsers except IE11, Opera and Android, default to woff after
+
+```scss
+@font-face {
+  font-family: "Some Custom Font";
+  font-style: normal;
+  font-weight: normal;
+  font-display: auto;
+  src: local("Some Custom Font"), url("fonts/custom.woff2") format("woff2"), url("fonts/custom.woff")
+      format("woff");
+}
+```
+
+- In the case that custom fonts fail to load, use web fonts linked offsite to Google Fonts. Lastly, default to system fonts
+
+```scss
+@import url(//fonts.googleapis.com/css?family=Open+Sans);
+
+body {
+  font-family: "Some Custom Font", "Open Sans", Tahoma;
+}
+```
 
 ## Translation
 
